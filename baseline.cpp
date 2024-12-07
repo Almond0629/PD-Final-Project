@@ -1,71 +1,15 @@
 #include <iostream>
+#include <fstream>
 #include <string>
+#include <vector>
+#include "unistd.h"
 #include "Maze.h"
 #include "characterMonster.h"
 
 using namespace std;
 
-// struct Position
-// {
-//     int x;
-//     int y;
-
-//     bool operator==(const Position& pos2) const
-//     {
-//         if (this->x == pos2.x && this->y == pos2.y) return true;
-//         else return false;
-//     }
-// };
-
-// class Monster
-// {
-// private:
-//     string name;
-//     int life;
-//     int atk;
-// public:
-//     Monster(/* args */);
-//     ~Monster();
-
-//     //當玩家和怪物戰鬥
-//     void fight(player)
-//     {
-//         /* code */
-//     }
-// };
-// //WARNING! 暫時想不到怪物的中類及區別
-
-// class Character
-// {
-// private:
-//     int life;
-//     int currentLevel;
-//     //inventory (這邊想用vector語法寫? 但我還不是很熟悉 先放著 之後再來重看一下影片)
-    
-// public:
-//     Position position; // 紀錄玩家ㄉ位置
-
-//     //constructor
-//     Character() : currentLevel(0), x(0), y(0) //玩家自最左下角開始遊戲
-//     {
-//     }
-
-//     int getCurrentLevel() {return currentLevel;}
-//     void setCurrentLevel() {currentLevel++;}
-
-//     //玩家移動
-//     void move(int direction)
-//     {
-//         /* code */
-//     }
-
-//     //重設玩家位置
-//     void resetPosition()
-//     {
-//         position = {0,0}
-//     }
-
-// }
+void mapCreateAlgorithm(int size, int **dungeonMap); // 演算法生成一張地圖，直接更改至dungeonMap中
+void printInstruction();
 
 // class Map
 // {
@@ -93,7 +37,6 @@ using namespace std;
 //         {
 //             /* code */
 //         }
-        
 
 //     }
 
@@ -101,7 +44,7 @@ using namespace std;
 //     {
 //         //根據dungeonMap, itemPosition, monsterPosition，顯示以玩家為中心附近7*7的地圖樣貌
 //         //WARNING:邊界情況未考慮
-//         for (int i = currpos.y + 3; i < currpos - 3; i--)
+//         for (int i = currpos.y + 3; i < currpos.y - 3; i--)
 //         {
 //             for (int j = currpos.x + 3; j < currpos.x - 3; j--)
 //             {
@@ -128,114 +71,337 @@ using namespace std;
 //             monsterList[encouteredMonsterCnt].fight(player);
 //             encouteredMonsterCnt++;
 //         }
+//     }
+
+//     //檢查角色的移動有沒有撞牆
+//     bool mapHittingWall(Character p, Position d)
+//     {
+//         p.move(d);
+//         int x = p.position.x;
+//         int y = p.position.y;
+//         if (dungeonMap[x][y] == 1)
+//         {
+//             return false;
+//         }
+//         else return true;
         
 //     }
-// }
+// };
+bool printFileContents();
+bool achievementGet(const string achievementName);
+
 
 int main()
 {
-    // game.exe execute
-    cout << "Welcome to the Maze Game!\n";
-    cout << "Use W/A/S/D to move. Press Q to quit.\n";
+    // game.exe execute 開頭台詞
+    cout << "..." << endl;
+    sleep(2);
 
     // type "start" to start game, "achievement" to check the previous made cuisine, "delete" to delete game history
     //, "exit" to exit game, cout "invalid command" if the cin command matches none of these
 
     //=============="start"===============
-    // type "easy", "normal", "hard" to switch difficulty
-    int difficulty, size;
-    cout << "Please choose a difficulty:" << "\n";
-    cout << "Enter 1 for easy" << "\n";
-    cout << "Enter 2 for normal" << "\n";
-    cout << "Enter 3 for hard" << "\n";
-    
-    while (difficulty != 1 && difficulty != 2 && difficulty != 3)
+
+    string menuCmd;
+    while (getline(cin, menuCmd))
     {
-        cin >> difficulty;
-        if (difficulty != 1 && difficulty != 2 && difficulty != 3)
-            cout << "Invalid difficulty, please type again";
-    }
+        if (menuCmd == "start")
+        {
+            // type "easy", "normal", "hard" to switch difficulty, and change parameters depends on difficulty
+            int difficulty, size, characterLife;
+            cout << "Please choose a difficulty: " << "\n";
+            cout << "Enter 1 for easy" << "\n";
+            cout << "Enter 2 for normal" << "\n";
+            cout << "Enter 3 for hard" << "\n";
+            
+            while (difficulty != 1 && difficulty != 2 && difficulty != 3)
+            {
+                cin >> difficulty;
+                if (difficulty != 1 && difficulty != 2 && difficulty != 3)
+                    cout << "Invalid difficulty, please type again";
+            }
 
-    switch (difficulty) {
-        case 1:
-            size = 11;
-            break;
-        case 2:
-            size = 15;
-            break;
-        case 3:
-            size = 19;
-            break;
-    }
+            switch (difficulty) {
+                case 1:
+                    characterLife = 30;
+                    size = 11;
+                    break;
+                case 2:
+                    characterLife = 25;
+                    size = 15;
+                    break;
+                case 3:
+                    characterLife = 20;
+                    size = 19;
+                    break;
+            }
 
-    Maze maze(size);
-    maze.generate();
-    char command;
+            // 生成地圖=========================================================================================
+            Maze* dungeons[3];
+            for (int i = 0; i < 3; i++)
+            {
+                dungeons[i] = new Maze(size);
+                dungeons[i]->generate(i);
+            }
 
-    bool gameEnd = false;
-    while (gameEnd == false) {
-        maze.display();
-        cout << "Enter your move: ";
-        cin >> command;
+            //創建角色
+            string characterName;
+            cout << "Your name: " << endl;
+            cin >> std::ws;
+            getline(cin, characterName);
+            Position pos;
+            pos.x = 0;
+            pos.y = 0;
+            Character player = Character(characterName, characterLife, pos, 20);
 
-        if (command == 'Q' || command == 'q') {
-            cout << "Game Over! You collected " << maze.collectedPrizes << " prizes.\n";
-            break;
+            // cout the background story and instruction to the player
+            cout << "好餓喔...午餐吃什麼" << endl;
+            sleep(1);
+
+            //以輸入wasd控制玩家移動，每次移動都會更新terminal所顯示的地圖
+            //也有其他指令可以輸入，"help"為顯示操作說明，"inventory"為打開背包，"exit"為離開遊戲
+            int currLevel = 0;
+            bool gameEnd = false;
+            bool metMonster = false;
+            dungeons[currLevel]->display();
+
+            string inGameCmd;
+            cout << "Enter your command: \n";
+            while (getline(cin, inGameCmd))
+            {              
+                if (gameEnd == false && currLevel < 3) {
+                    
+                    cout << "your cmd: " << inGameCmd << endl;
+                    // dungeons[currLevel]->display();
+                    if (inGameCmd == "w" || inGameCmd == "a" || inGameCmd == "s" || inGameCmd == "d")
+                    {
+                        char moveCmd = inGameCmd[0];
+                        dungeons[currLevel]->movePlayer(moveCmd, gameEnd);
+                        dungeons[currLevel]->didWeMeetMonster(metMonster);
+                        if (metMonster){
+                            cout << "Ran into a monster! And you won!" << "\n";
+                            // int random_int = 1 + rand() % 6;
+                            int random_int = 1;
+                            switch (random_int) {
+                                case 1:
+                                    cout << "Met a tomato!\n";
+                                    Tomato tomato("Tomato");
+                                    player.putIntoBackPack(tomato);
+                                    player.seeTheBackPackStatus();
+                                    break;
+                            }
+                            metMonster = false;
+                        }
+                    }
+                    else if (inGameCmd == "help") 
+                    {
+                        printInstruction();
+                    }
+                    else if (inGameCmd == "achievement") 
+                    {
+                        printFileContents();
+                    }
+                    else if (inGameCmd == "inventory") 
+                    {
+
+                    }
+                    else if (inGameCmd == "dvcmd-break") 
+                    {
+                        //開發用終止迴圈
+                        break;
+                    }
+                    else if (inGameCmd == "exit") 
+                    {
+                        cout << "the game history will not be preserved, but the achievement will be kept, are you sure?" << endl;
+                        cout << "type \"yes\" to exit the game, or type any thing else to cancel" << endl;
+                        string exitCmd;
+                        getline(cin, exitCmd);
+                        if (exitCmd == "yes") 
+                        {
+                            cout << "see you next time ~" << endl;
+                            return 0;
+                        }
+                        else if (exitCmd == "any thing else")
+                        {
+                            cout << "Get achievement- \"Seriously?\" " << endl;
+                            achievementGet("Seriously?");
+                        }
+                    }
+                    else 
+                    {
+                        cout << "invalid input!" << endl;
+                    }
+
+                    dungeons[currLevel]->display();
+
+                    if (gameEnd && currLevel < 3) 
+                    {
+                        cout << "Next level, let's gooo!" << endl;
+                        currLevel++;   
+                        gameEnd = false;
+                        if (currLevel < 3) dungeons[currLevel]->display();
+                    }
+                     
+                    cout << "gameEnd: " << gameEnd << endl; 
+                    cout << "currLevel: " << currLevel << endl; 
+                }
+                else break;
+                    
+            }
+
+            cout << "..." << endl;
+            sleep(2.5);
+            cout << "(你似乎來到了一個房間，中間擺著一個鍋釜，牆上的水晶發出微弱又溫和的光線，地板不再粗糙而是經過打磨，看來終於來到了終點的寶物間)" << endl;
+            sleep(5.5);
+            cout << "乾，都已經夠餓了，還要走迷宮打怪，結果甚至不是拿到煮好的料理，這是什麼鬼餐廳啊" << endl;
+            sleep(4.5);
+            cout << "這是什麼? \"魔法鍋子 將食材放進以自動料理\"" << endl;
+            sleep(4);
+            cout << "什麼鬼，不就自動料理機，這旁邊甚至有插電哎，這算什麼寶物間啊" << endl;
+            sleep(4.2);
+            cout << "算了真的好餓，把背包的食材丟進去看看吧" << endl;
+            sleep(4);
+            
+            cout << "請選擇將三樣食材放入鍋中: " << endl;
+            // player.cooking();
         }
 
-        maze.movePlayer(command, gameEnd);
+        //================"achievement"=====================
+        else if (menuCmd == "achievement")
+        {
+            printFileContents();
+        }
+
+        //=================="exit"=======================
+        else if (menuCmd == "exit")
+        {
+            cout << "the game history will not be preserved, but the achievement will be kept, are you sure?" << endl;
+            cout << "type \"yes\" to exit the game, or type any thing else to cancel" << endl;
+            string exitCmd;
+            getline(cin, exitCmd);
+            if (exitCmd == "yes") 
+            {
+                cout << "see you next time ~" << endl;
+                return 0;
+            }
+            else if (exitCmd == "any thing else")
+            {
+                cout << "Get achievement- \"Seriously?\" " << endl;
+                //achievement add
+                continue;
+            }
+            else continue;
+        }
     }
-    cout << "You win!" << endl;
+    
+}
 
+void printInstruction()
+{
+    cout << "-help- show this instruction" << endl;
+    cout << "-inventory- open your backpack" << endl;
+    cout << "-achievement- show your achievement" << endl;
+    cout << "-w- move upward" << endl;
+    cout << "-a- move left" << endl;
+    cout << "-s- move backward" << endl;
+    cout << "-d- move right" << endl;
+    cout << "-exit- exit the game" << endl;
+}
 
-    // // 生成地圖
-    // Map **dungeons = new Map[3];
-    // for (int i = 0; i < 3; i++)
-    // {
-    //     dungeons[i] = new Map(mapSize);
-    // }
+//獲得成就(generated by chatgpt)
+bool achievementGet(const string achievementName)
+{
+    const string fileName = "achievements.txt";
 
-    // Character player = new Character();
+    // Open the file for reading
+    ifstream inFile(fileName);
+    if (!inFile) {
+        cerr << "Error opening file for reading!" << endl;
+        return false;
+    }
 
-    // // cout the background story and instruction to the player
+    vector<string> lines;
+    string line;
 
-    // //以輸入wasd控制玩家移動，每次移動都會更新terminal所顯示的地圖
-    // //也有其他指令可以輸入，"help"為顯示操作說明，"inventory"為打開背包，"exit"為離開遊戲
-    // string cmd;
-    // while(cin >> cmd)
-    // {
-    //     //many if-else cases to determine the command
-    //         //if cmd == w a s d
-    //         Character.move()
-    //         int currLevel = player.getCurrentLevel();
-    //         dungeons[currLevel].mapUpadate(player);
-    //         dungeons[currLevel].mapPrint();
+    // Read each line and store it in a vector
+    while (getline(inFile, line)) {
+        lines.push_back(line);
+    }
 
-    //         //若玩家抵達終點且完成所有地圖，進結局
-    //         if (player.position == END_POSITION && currLevel == 3)
-    //         {
-    //             /* code */
-    //             break;
-    //         }
-    //         //若玩家抵達終點
-    //         else if (player.position == END_POSITION)
-    //         {
-    //             player.setCurrentLevel();
-    //             player.positionReset(); 
-    //         }
+    // Close the input file
+    inFile.close();
 
-    //         //if cmd == "help"
+    // Modify the specific boolean value
+    for (size_t i = 0; i < lines.size() - 1; i += 2) { // Iterate only over even lines containing the boolean
+        if (lines[i].find(achievementName) != string::npos) { // Replace "Ending" with the achievement you want to change
+            if (lines[i][0] == '0') {
+                lines[i][0] = '1'; // Change '0' to '1' to mark as completed
+            } 
+        }
+    }
 
-    //         //if cmd == "achievement"
+    // Open the file for writing (overwrite mode)
+    ofstream outFile(fileName);
+    if (!outFile) {
+        cerr << "Error opening file for writing!" << endl;
+        return 1;
+    }
 
-    //         //if cmd == "inventory"
+    // Write the modified content back to the file
+    for (const auto &modifiedLine : lines) {
+        outFile << modifiedLine << "\n";
+    }
 
-    //         //if cmd == "exit"
-    // }
+    // Close the output file
+    outFile.close();
 
-    // //================"achievement"=====================
+    // cout << "Achievement status successfully modified." << endl;
+    return true;
+}
 
-    // //==================="delete"=======================
+bool printFileContents() 
+{
+    const string fileName = "achievements.txt";
 
-    // //=================="exit"=======================
+    // Open the file for reading
+    ifstream inFile(fileName);
+    if (!inFile) {
+        cerr << "Error opening file for reading!" << endl;
+        return false;
+    }
+
+    string line1, line2;
+    while (getline(inFile, line1)) {
+        // Skip the boolean flag (first element of each pair of lines)
+        bool achievementComplete = false;
+        if (line1[0] == '1') {
+            achievementComplete = true;
+            line1 = line1.substr(2); // Remove the leading boolean and space
+        }
+        else if (line1[0] == '0')
+        {
+            line1 = line1.substr(2);
+        }
+
+        // Read the description line
+        if (getline(inFile, line2)) {
+            if (achievementComplete)
+            {
+                cout << line1 << " - " << line2 << endl;
+            }
+            else
+            {
+                cout << "??? - ???" << endl;
+            }         
+            inFile.close();
+            return true;
+        }
+        else 
+        {
+            inFile.close();
+            return false;
+        }
+        
+    }
+
 }

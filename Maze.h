@@ -1,11 +1,14 @@
+#pragma once
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
+#include "characterMonster.h"
 
 using namespace std;
 
-// const int MAZE_SIZE = 7;
 const int PRIZE_CHANCE = 10; // Percentage chance to place a prize on the path
+const int MONSTER_CHANCE = 10; // Percentage chance to meet a monater on the map
+const int MAX_MONSTER_CNT = 40;
 const char PLAYER_SYMBOL = 'P';
 
 // Directions for moving in the grid (up, down, left, right)
@@ -18,11 +21,11 @@ private:
     int playerX, playerY;   // Player position
     int** grid;
 public:
+    MonsterTeam monsterTeam = MonsterTeam(MAX_MONSTER_CNT);
     int collectedPrizes;
     Maze(int _mazeSize) : playerX(1), playerY(1), collectedPrizes(0), mazeSize(_mazeSize) {
         // Initialize the maze with walls
         grid = new int*[mazeSize + 2];
-        // int grid[mazeSize + 2][mazeSize + 2];   // Fixed-size array for the maze
         for (int i = 0; i < mazeSize + 2; i++) {
             grid[i] = new int[mazeSize + 2];
             for (int j = 0; j < mazeSize + 2; j++) {
@@ -79,8 +82,8 @@ public:
     }
 
 
-    void generate(){
-        srand(time(0));
+    void generate(int rdnum){
+        srand(rdnum + time(nullptr));
         generateMaze(1, 1); // Start maze generation from the top-left corner
         grid[playerY][playerX] = 0; // Ensure the player's starting position is a path
     }
@@ -146,6 +149,11 @@ public:
                 cout << "You can't move there!\n";
             }
         }
-        
+    }
+
+    void didWeMeetMonster(bool &metMonster){
+        if (rand() % 100 < MONSTER_CHANCE){
+            metMonster = true;
+        }
     }
 };

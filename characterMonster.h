@@ -1,10 +1,14 @@
+#pragma once
 #include<iostream>
+#include<string>
 #include <cstdlib>
 #include <ctime>
-//#include<vector>
+#include <vector>
 using namespace std;
 
 void fight(){}
+
+class Monster;
 
 struct Position
 {
@@ -18,61 +22,6 @@ struct Position
     }
 };
 
-class Character
-{
-    friend void fight();
-private:
-    string name;
-    int life;
-    Position position;
-public:
-    Character(string name, int life,  Position position);
-    ~Character();
-    void move(Position position);
-    void winOrLoseTheGame(bool winCharacter);
-    Position getCharacterPosition(const Character& c);
-
-};
-Character::Character(string name, int life,  Position position)
-{
-    this -> name = name;
-    this -> life = life;
-    this->position = position;
-}
-Character::~Character()
-{
-}
-void Character::move(Position position)
-{
-    this->position.x += position.x;
-    this->position.y += position.y;
-}
-void Character::winOrLoseTheGame(bool winCharacter)
-{
-    if (winCharacter)
-    {
-        //cout << name << " wins the game!" << endl;
-    }
-    else
-    {
-        life -- ;//damageOnLose 應該會包在monster的屬性
-
-        if (life <= 0)
-        {
-            cout << name << " has been defeated!" << endl;
-        }
-        else
-        {
-            cout  << " remaining life: " << life << endl;
-        }
-    }
-}
-Position Character::getCharacterPosition(const Character& c)
-{
-    return this->position;
-}
-
-
 
 class Monster
 {
@@ -80,23 +29,22 @@ class Monster
 protected:
     string name;
     bool alive;
-    Position position;
     //int attack;
 
 public:
-    Monster(string name,  Position position);
+    Monster(string name);
     ~Monster();
     
     int RPSchoiceAndPrint();
     void winOrLoseTheGame(bool winMonster);
+    string getName(){ return name;}
     virtual void print() = 0;
 
 };
-Monster::Monster(string name,  Position position)
+Monster::Monster(string name)
 {
     this -> name = name;
     this -> alive = true;
-    this->position = position;
 
 }
 Monster::~Monster()
@@ -130,100 +78,6 @@ void Monster::winOrLoseTheGame(bool winMonster)
 }
 
 
-class Tomato : public Monster
-{
-private:
-    int attackPower; // Tomato 專屬屬性
-public:
-    Tomato(string name, Position position, int attackPower);
-    ~Tomato();
-    void print();
-    //void RPSWith(const Character& oppenent);
-    void specialAttack();    // Tomato 專屬方法
-};
-Tomato::Tomato(string name, Position position, int attackPower)
-    : Monster(name, position)
-{
-    this ->attackPower = attackPower;
-}
-Tomato::~Tomato()
-{
-}
-void Tomato::print(){
-    cout << "            _              " <<endl;
-    cout << "      /\\  | | / \\          " <<endl;
-    cout << "     /  \\    /   \\         " <<endl;
-    cout << "   --                --       " <<endl;
-    cout << "  |                    |    " <<endl;
-    cout << "  |     ^        ^     |   " <<endl;
-    cout << "  |                    |   " <<endl;
-    cout << "  |      (  v v   )    |  " <<endl;
-    cout << "  |                    |   " <<endl;
-    cout << "  ----------------------  " <<endl;
-}
-
-
-
-class Egg : public Monster
-{
-private:
-    int attackPower; 
-public:
-    Egg(string name,Position position, int attackPower);
-    ~Egg();
-    void print();
-    void specialAttack();  
-};
-Egg::Egg(string name, Position position, int attackPower)
-    : Monster(name, position)
-{
-    this ->attackPower = attackPower;
-}
-Egg::~Egg()
-{
-}
-void Egg::print(){
-    cout << "   --------------------    " <<endl;
-    cout << "  |                    |   " <<endl;
-    cout << "  |     >        <     |   " <<endl;
-    cout << "  |                    |   " <<endl;
-    cout << "  |           0         |    " <<endl;
-    cout << "  |                    |   " <<endl;
-    cout << "  |          ___       |   " <<endl;
-    cout << "  |          |_|       |    "    <<endl;
-    cout << "  |                    |   " <<endl;
-    cout << "  ----------------------  " <<endl;
-}
-
-
-class Apple:public Monster
-{
-private:
-    /* data */
-public:
-    Apple(string name, Position position, int attackPower);
-    ~Apple();
-    void print();
-};
-Apple::Apple(string name, Position position, int attackPower): Monster(name, position)
-{
-}
-Apple::~Apple()
-{
-}
-void Apple::print()
-{
-    cout << "            /\\    " <<endl;
-    cout << "           | | /\\   " <<endl;
-    cout << "    /------   -----\\   " <<endl;
-    cout << "   /                \\    " <<endl;
-    cout << "  |     $       $     |   " <<endl;
-    cout << "  |          >        |    " <<endl;
-    cout << "  |          3        |   " <<endl;
-    cout << "  \\                  /   " <<endl;
-    cout << "    \\-------------  /  " <<endl;
-}
-
 
 class MonsterTeam
 {
@@ -236,6 +90,7 @@ public:
     MonsterTeam(int maxMonsterCnt);
     ~MonsterTeam();
     void addMonster(Monster& mosnter);
+    void printMonsterTeam();
     Monster* operator[](int i) const;
 };
 MonsterTeam::MonsterTeam(int maxMonsterCnt) : maxMonsterCnt(maxMonsterCnt), monsterCnt(0) 
@@ -262,6 +117,15 @@ void MonsterTeam::addMonster(Monster& monster)
     } else {
         std::cerr << "Monster team is full!" << std::endl;
     }
+    // cout << monsterTeamArray[monsterCnt - 1]->getName() << "\n";
+}
+void MonsterTeam::printMonsterTeam()
+{
+    cout << monsterCnt << "\n";
+    for (int i = 0; i < monsterCnt; i++)
+    {
+        cout << monsterTeamArray[i]->getName() << "\n";
+    }
 }
 Monster* MonsterTeam::operator[](int i) const
 {
@@ -270,11 +134,301 @@ Monster* MonsterTeam::operator[](int i) const
 
 
 
-// int main()
+class Tomato : public Monster
+{
+private:
+public:
+    Tomato(string name);
+    ~Tomato();
+    void print();
+    //void RPSWith(const Character& opponent);
+    void specialAttack();    // Tomato 專屬方法
+};
+Tomato::Tomato(string name)
+    : Monster(name){}
+Tomato::~Tomato()
+{
+}
+void Tomato::print(){
+    cout << "            _              " <<endl;
+    cout << "      /\\  | | / \\          " <<endl;
+    cout << "     /  \\    /   \\         " <<endl;
+    cout << "   --                --       " <<endl;
+    cout << "  |                    |    " <<endl;
+    cout << "  |     ^        ^     |   " <<endl;
+    cout << "  |                    |   " <<endl;
+    cout << "  |      (  v v   )    |  " <<endl;
+    cout << "  |                    |   " <<endl;
+    cout << "  ----------------------  " <<endl;
+}
+
+class Egg : public Monster
+{
+private:
+public:
+    Egg(string name);
+    ~Egg();
+    void print();
+    void specialAttack();  
+};
+Egg::Egg(string name)
+    : Monster(name)
+{
+}
+Egg::~Egg()
+{
+}
+void Egg::print(){
+    cout << "   --------------------    " <<endl;
+    cout << "  |                    |   " <<endl;
+    cout << "  |     >        <     |   " <<endl;
+    cout << "  |                    |   " <<endl;
+    cout << "  |           0         |    " <<endl;
+    cout << "  |                    |   " <<endl;
+    cout << "  |          ___       |   " <<endl;
+    cout << "  |          |_|       |    "    <<endl;
+    cout << "  |                    |   " <<endl;
+    cout << "  ----------------------  " <<endl;
+}
+
+
+// class Apple:public Monster
 // {
-//     Position pos = {0, 5};
-//     Apple tomato("hihi", pos, 100);
-//     tomato.print();
-//     return 0;
+// private:
+//     /* data */
+// public:
+//     Apple(string name, Position position, int attackPower);
+//     ~Apple();
+//     void print();
+// };
+// Apple::Apple(string name, Position position, int attackPower): Monster(name, position)
+// {
 // }
+// Apple::~Apple()
+// {
+// }
+// void Apple::print()
+// {
+//     cout << "            /\\    " <<endl;
+//     cout << "           | | /\\   " <<endl;
+//     cout << "    /------   -----\\   " <<endl;
+//     cout << "   /                \\    " <<endl;
+//     cout << "  |     $       $     |   " <<endl;
+//     cout << "  |          >        |    " <<endl;
+//     cout << "  |          3        |   " <<endl;
+//     cout << "  \\                  /   " <<endl;
+//     cout << "    \\-------------  /  " <<endl;
+// }
+
+
+// class Lettuce:public Monster
+// {
+// private:
+//     /* data */
+// public:
+//     Lettuce(string name, Position position, int attackPower);
+//     ~Lettuce();
+//     void print();
+// };
+// Lettuce::Lettuce(string name, Position position, int attackPower): Monster(name, position)
+// {
+// }
+// Lettuce::~Lettuce()
+// {
+// }
+// void Lettuce::print()
+// {
+//     cout << "       /\\  /\\            " << endl;
+//     cout << "     /\\  /\\  /\\      " <<endl;
+//     cout << "    /  \\/  \\/  \\     " <<endl;
+//     cout << "    \\  /\\  /\\  /      " <<endl;
+//     cout << "     \\/  \\/  \\/  " <<endl;
+//     cout << "     |        |   " <<endl;
+//     cout << "     |   3  3 |    " <<endl;
+//     cout << "     |        |   " <<endl;
+//     cout << "     |    lettuce)   " <<endl;
+//     cout << "     \\       /   " <<endl;
+//     cout << "      -------   " <<endl;
+// }
+
+
+// class Pork:public Monster
+// {
+// private:
+//     /* data */
+// public:
+//     Pork(string name, Position position, int attackPower);
+//     ~Pork();
+//     void print();
+// };
+// Pork::Pork(string name, Position position, int attackPower): Monster(name, position)
+// {
+// }
+// Pork::~Pork()
+// {
+// }
+// void Pork::print()
+// {
+//     cout << "         /\\    / \\    " <<endl;
+//     cout << "      --/  \\--/   \\--   " <<endl;
+//     cout << "    /                  \\   " <<endl;
+//     cout << "   /                    \\    " <<endl;
+//     cout << "  |     x         x      |    " <<endl;
+//     cout << "  |                      |    " <<endl;
+//     cout << "  |          O O         |   " <<endl;
+//     cout << "   \\          -         /   " <<endl;
+//     cout << "    \\------------------/  " <<endl;
+// }
+
+
+// class Beef:public Monster
+// {
+// private:
+//     /* data */
+// public:
+//     Beef(string name, Position position, int attackPower);
+//     ~Beef();
+//     void print();
+// };
+// Beef::Beef(string name, Position position, int attackPower): Monster(name, position)
+// {
+// }
+// Beef::~Beef()
+// {
+// }
+// void Beef::print()
+// {
+//     cout << "                " <<endl;
+//     cout << "                " <<endl;
+//     cout << "     /- ^---^-\\   " <<endl;
+//     cout << "    /   o   o  \\    " <<endl;
+//     cout << "    |           |   " <<endl;
+//     cout << "  /-             -\\  " <<endl;
+//     cout << " /      Mooooooo   \\    " <<endl;
+//     cout << "  \\                /  " <<endl;
+//     cout << "   \\ ------------ /  " <<endl;
+// }
+
+
+/////////////////////////////////////////////////////////////////////////////////////
+
+struct Backpack {
+    int money;
+    vector<Monster*> monsterVector;
+
+    Backpack(int initialMoney = 0) : money(initialMoney) {}
+};
+
+class Character
+{
+    friend void fight();
+private:
+    string name;
+    int life;
+    Position position;
+    Backpack backpack;
+
+public:
+    Character(string name, int life,  Position position, int money);
+    ~Character();
+    void move(Position position);
+    void winOrLoseTheGame(bool winCharacter);
+    Position getCharacterPosition(const Character& c);
+    void reduceMoneyAndPrint(int amount);
+    void putIntoBackPack(int money);
+    void putIntoBackPack(Monster& monster);
+    void seeTheBackPackStatus();
+
+};
+Character::Character(string name, int life, Position position, int money)
+    : name(name), life(life), position(position), backpack(money) {
+}
+Character::~Character()
+{
+}
+void Character::move(Position position)
+{
+    this->position.x += position.x;
+    this->position.y += position.y;
+}
+void Character::winOrLoseTheGame(bool winCharacter)
+{
+    if (winCharacter)
+    {
+        //putIntoBackPack(Monster& monster)
+    }
+    else
+    {
+        life -- ;//damageOnLose 應該會包在monster的屬性
+
+        if (life <= 0)
+        {
+            cout << name << " has been defeated!" << endl;
+        }
+        else
+        {
+            cout  << " remaining life: " << life << endl;
+        }
+    }
+}
+Position Character::getCharacterPosition(const Character& c)
+{
+    return this->position;
+}
+void Character::reduceMoneyAndPrint(int amount)
+{
+    this->backpack.money -= 10;
+    cout << name << " still have " << backpack.money << " Dollar." << endl;
+}
+void Character::putIntoBackPack(int moneyAmount)
+{
+    this->backpack.money += moneyAmount;
+    cout << name << " now have " << backpack.money << " Dollar." << endl;
+}
+void Character::putIntoBackPack(Monster& monster)
+{
+    this->backpack.monsterVector.push_back(&monster);
+}
+void Character::seeTheBackPackStatus()
+{
+    cout << "Do you want to check money or monster? type in \"money\" or \"monster\""
+            " or \"quit\" to stop searching" << endl;
+    string command;
+    getline(cin, command);
+
+    if (command == "money") {
+        cout << "You still have " << backpack.money << " dollar." << endl;
+    } else if (command == "monster") {
+        int tomatoCnt = 0, eggCnt = 0, appleCnt = 0, lettuceCnt = 0, porkCnt = 0, beefCnt = 0;
+
+        for (Monster* monster : backpack.monsterVector) {
+            if (dynamic_cast<Tomato*>(monster)) {
+                tomatoCnt++;
+            // } else if (dynamic_cast<Egg*>(monster)) {
+            //     eggCnt++;
+            // } else if (dynamic_cast<Apple*>(monster)) {
+            //     appleCnt++;
+            // } else if (dynamic_cast<Lettuce*>(monster)) {
+            //     lettuceCnt++;
+            // } else if (dynamic_cast<Pork*>(monster)) {
+            //     porkCnt++;
+            // }
+            // else if (dynamic_cast<Beef*>(monster)) {
+            //     beefCnt++;
+            }
+        }
+        
+        cout << "You have " << tomatoCnt << " tomato." << endl;
+        // cout << "You have " << eggCnt << " egg." << endl;
+        // cout << "You have " << appleCnt << " apple." << endl;
+        // cout << "You have " << lettuceCnt << " lettuce." << endl;
+        // cout << "You have " << porkCnt << " pork." << endl;
+        // cout << "You have " << beefCnt << " beef." << endl;
+
+    } else if (command == "quit") {
+        cout << "Exiting backpack check." << endl;
+    } else {
+        cout << "Invalid command. Try again!" << endl;
+    }
+}
 
