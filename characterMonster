@@ -29,7 +29,6 @@ public:
     Character(string name, int life,  Position position);
     ~Character();
     void move(Position position);
-    int RPSchoiceAndPrint(string name);
     void winOrLoseTheGame(bool winCharacter);
     Position getCharacterPosition(const Character& c);
 
@@ -47,20 +46,6 @@ void Character::move(Position position)
 {
     this->position.x += position.x;
     this->position.y += position.y;
-}
-int Character::RPSchoiceAndPrint(string name)
-{
-    int makeChoice = (rand() % 3) * 2 + (rand() % 2) * 5;
-        // Generate random choice: 0 (Rock), 2 (Scissors), 5 (Paper)
-    if (makeChoice == 0) {
-        cout << name << " chose Rock!" << endl;
-    } else if (makeChoice == 2) {
-        cout << name << " chose Scissors!" << endl;
-    } else if (makeChoice == 5) {
-        cout << name << " chose Paper!" << endl;
-    }
-
-    return makeChoice;
 }
 void Character::winOrLoseTheGame(bool winCharacter)
 {
@@ -102,7 +87,7 @@ public:
     Monster(string name,  Position position);
     ~Monster();
     
-    int RPSchoiceAndPrint(string name);
+    int RPSchoiceAndPrint();
     void winOrLoseTheGame(bool winMonster);
     virtual void print() = 0;
 
@@ -117,16 +102,17 @@ Monster::Monster(string name,  Position position)
 Monster::~Monster()
 {
 }
-int Monster::RPSchoiceAndPrint(string name)
+int Monster::RPSchoiceAndPrint()
 {
-    int makeChoice = (rand() % 3) * 2 + (rand() % 2) * 5;
-        // Generate random choice: 0 (Rock), 2 (Scissors), 5 (Paper)
+    int choices[] = {0, 2, 5};
+    int makeChoice = choices[rand() % 3];
+    // Generate random choice: 0 (Rock), 2 (Scissors), 5 (Paper)
     if (makeChoice == 0) {
-        cout << name << " chose Rock!" << endl;
+        cout << this->name << " chose Rock!" << endl;
     } else if (makeChoice == 2) {
-        cout << name << " chose Scissors!" << endl;
+        cout << this->name << " chose Scissors!" << endl;
     } else if (makeChoice == 5) {
-        cout << name << " chose Paper!" << endl;
+        cout << this->name << " chose Paper!" << endl;
     }
 
     return makeChoice;
@@ -210,7 +196,7 @@ void Egg::print(){
 }
 
 
-class Apple
+class Apple:public Monster
 {
 private:
     /* data */
@@ -219,7 +205,7 @@ public:
     ~Apple();
     void print();
 };
-Apple::Apple(string name, Position position, int attackPower)
+Apple::Apple(string name, Position position, int attackPower): Monster(name, position)
 {
 }
 Apple::~Apple()
@@ -250,12 +236,12 @@ public:
     MonsterTeam(int maxMonsterCnt);
     ~MonsterTeam();
     void addMonster(Monster& mosnter);
+    Monster* operator[](int i) const;
 };
-MonsterTeam::MonsterTeam(int maxMonsterCn ):maxMonsterCnt(maxMonsterCnt)
+MonsterTeam::MonsterTeam(int maxMonsterCnt) : maxMonsterCnt(maxMonsterCnt), monsterCnt(0) 
 {
-    Monster** monsterTeamArray = new Monster*[maxMonsterCnt];
-    for (int i = 0; i < maxMonsterCnt; i++)
-    {
+    monsterTeamArray = new Monster*[maxMonsterCnt];
+    for (int i = 0; i < maxMonsterCnt; i++) {
         monsterTeamArray[i] = nullptr;
     }
 }
@@ -267,7 +253,8 @@ MonsterTeam::~MonsterTeam()
     }
     delete [] monsterTeamArray;
 }
-void MonsterTeam::addMonster(Monster& monster) {
+void MonsterTeam::addMonster(Monster& monster) 
+{
     // 確保不超過上限
     if (monsterCnt < maxMonsterCnt) {
         // 建立新的 Monster 複製物件，並存到陣列中
@@ -276,10 +263,12 @@ void MonsterTeam::addMonster(Monster& monster) {
         std::cerr << "Monster team is full!" << std::endl;
     }
 }
+Monster* MonsterTeam::operator[](int i) const
+{
+    return monsterTeamArray[i];
+}
 
 
-
-  
 
 int main()
 {
