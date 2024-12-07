@@ -31,6 +31,7 @@ public:
     void move(Position position);
     int RPSchoiceAndPrint(string name);
     void winOrLoseTheGame(bool winCharacter);
+    Position getCharacterPosition(const Character& c);
 
 };
 Character::Character(string name, int life,  Position position)
@@ -80,6 +81,10 @@ void Character::winOrLoseTheGame(bool winCharacter)
             cout  << " remaining life: " << life << endl;
         }
     }
+}
+Position Character::getCharacterPosition(const Character& c)
+{
+    return this->position;
 }
 
 
@@ -283,3 +288,4 @@ int main()
     tomato.print();
     return 0;
 }
+
