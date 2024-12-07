@@ -258,14 +258,3 @@ MonsterTeam::~MonsterTeam()
     delete [] monsterTeamArray;
     
 }
-
-
-  
-
-int main()
-{
-    Position pos = {0, 5};
-    Apple tomato("hihi", pos, 100);
-    tomato.print();
-    return 0;
-}

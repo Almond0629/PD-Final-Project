@@ -1,0 +1,15 @@
+0 Seriously? 
+type "any thing else" during exiting
+0 Master Chef
+finish all kinds of dishes
+0 Terrible Maze Solving
+solve a maze for more than 50 steps
+1 Ending
+finish an end
+4
+
+豬
+牛
+菜
+蘋果
+蛋
