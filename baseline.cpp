@@ -140,7 +140,7 @@ int main()
             Maze* dungeons[3];
             for (int i = 0; i < 3; i++)
             {
-                dungeons[i] = new Maze(size);
+                dungeons[i] = new Maze(5);
                 dungeons[i]->generate(i);
             }
 
@@ -180,16 +180,40 @@ int main()
                         dungeons[currLevel]->didWeMeetMonster(metMonster);
                         if (metMonster){
                             cout << "Ran into a monster! And you won!" << "\n";
-                            // int random_int = 1 + rand() % 6;
-                            int random_int = 1;
+                            int random_int = 1 + rand() % 6;
                             switch (random_int) {
-                                case 1:
-                                    cout << "Met a tomato!\n";
+                                case 1: {
                                     Tomato tomato("Tomato");
                                     player.putIntoBackPack(tomato);
-                                    player.seeTheBackPackStatus();
                                     break;
+                                }
+                                case 2: {
+                                    Egg egg("Egg");
+                                    player.putIntoBackPack(egg);
+                                    break;
+                                }
+                                case 3: {
+                                    Apple apple("Apple");
+                                    player.putIntoBackPack(apple);
+                                    break;
+                                }
+                                case 4: {
+                                    Lettuce lettuce("Lettuce");
+                                    player.putIntoBackPack(lettuce);
+                                    break;
+                                }
+                                case 5: {
+                                    Pork pork("Pork");
+                                    player.putIntoBackPack(pork);
+                                    break;
+                                }
+                                case 6: {
+                                    Beef beef("Beef");
+                                    player.putIntoBackPack(beef);
+                                    break;
+                                }
                             }
+                            player.seeTheBackPackStatus();
                             metMonster = false;
                         }
                     }
@@ -248,6 +272,7 @@ int main()
                 else break;
                     
             }
+            // player.seeTheBackPackStatus();
 
             cout << "..." << endl;
             sleep(2.5);

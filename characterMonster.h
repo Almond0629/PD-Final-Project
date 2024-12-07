@@ -89,7 +89,7 @@ private:
 public:
     MonsterTeam(int maxMonsterCnt);
     ~MonsterTeam();
-    void addMonster(Monster& mosnter);
+    void addMonster(Monster& monster);
     void printMonsterTeam();
     Monster* operator[](int i) const;
 };
@@ -172,9 +172,7 @@ public:
     void specialAttack();  
 };
 Egg::Egg(string name)
-    : Monster(name)
-{
-}
+    : Monster(name) {}
 Egg::~Egg()
 {
 }
@@ -191,123 +189,110 @@ void Egg::print(){
     cout << "  ----------------------  " <<endl;
 }
 
-
-// class Apple:public Monster
-// {
-// private:
-//     /* data */
-// public:
-//     Apple(string name, Position position, int attackPower);
-//     ~Apple();
-//     void print();
-// };
-// Apple::Apple(string name, Position position, int attackPower): Monster(name, position)
-// {
-// }
-// Apple::~Apple()
-// {
-// }
-// void Apple::print()
-// {
-//     cout << "            /\\    " <<endl;
-//     cout << "           | | /\\   " <<endl;
-//     cout << "    /------   -----\\   " <<endl;
-//     cout << "   /                \\    " <<endl;
-//     cout << "  |     $       $     |   " <<endl;
-//     cout << "  |          >        |    " <<endl;
-//     cout << "  |          3        |   " <<endl;
-//     cout << "  \\                  /   " <<endl;
-//     cout << "    \\-------------  /  " <<endl;
-// }
+class Apple: public Monster
+{
+private:
+public:
+    Apple(string name);
+    ~Apple();
+    void print();
+};
+Apple::Apple(string name): Monster(name) {}
+Apple::~Apple()
+{
+}
+void Apple::print()
+{
+    cout << "            /\\    " <<endl;
+    cout << "           | | /\\   " <<endl;
+    cout << "    /------   -----\\   " <<endl;
+    cout << "   /                \\    " <<endl;
+    cout << "  |     $       $     |   " <<endl;
+    cout << "  |          >        |    " <<endl;
+    cout << "  |          3        |   " <<endl;
+    cout << "  \\                  /   " <<endl;
+    cout << "    \\-------------  /  " <<endl;
+}
 
 
-// class Lettuce:public Monster
-// {
-// private:
-//     /* data */
-// public:
-//     Lettuce(string name, Position position, int attackPower);
-//     ~Lettuce();
-//     void print();
-// };
-// Lettuce::Lettuce(string name, Position position, int attackPower): Monster(name, position)
-// {
-// }
-// Lettuce::~Lettuce()
-// {
-// }
-// void Lettuce::print()
-// {
-//     cout << "       /\\  /\\            " << endl;
-//     cout << "     /\\  /\\  /\\      " <<endl;
-//     cout << "    /  \\/  \\/  \\     " <<endl;
-//     cout << "    \\  /\\  /\\  /      " <<endl;
-//     cout << "     \\/  \\/  \\/  " <<endl;
-//     cout << "     |        |   " <<endl;
-//     cout << "     |   3  3 |    " <<endl;
-//     cout << "     |        |   " <<endl;
-//     cout << "     |    lettuce)   " <<endl;
-//     cout << "     \\       /   " <<endl;
-//     cout << "      -------   " <<endl;
-// }
+class Lettuce: public Monster
+{
+private:
+public:
+    Lettuce(string name);
+    ~Lettuce();
+    void print();
+};
+Lettuce::Lettuce(string name): Monster(name) {}
+Lettuce::~Lettuce()
+{
+}
+void Lettuce::print()
+{
+    cout << "       /\\  /\\            " << endl;
+    cout << "     /\\  /\\  /\\      " <<endl;
+    cout << "    /  \\/  \\/  \\     " <<endl;
+    cout << "    \\  /\\  /\\  /      " <<endl;
+    cout << "     \\/  \\/  \\/  " <<endl;
+    cout << "     |        |   " <<endl;
+    cout << "     |   3  3 |    " <<endl;
+    cout << "     |        |   " <<endl;
+    cout << "     |    lettuce)   " <<endl;
+    cout << "     \\       /   " <<endl;
+    cout << "      -------   " <<endl;
+}
 
 
-// class Pork:public Monster
-// {
-// private:
-//     /* data */
-// public:
-//     Pork(string name, Position position, int attackPower);
-//     ~Pork();
-//     void print();
-// };
-// Pork::Pork(string name, Position position, int attackPower): Monster(name, position)
-// {
-// }
-// Pork::~Pork()
-// {
-// }
-// void Pork::print()
-// {
-//     cout << "         /\\    / \\    " <<endl;
-//     cout << "      --/  \\--/   \\--   " <<endl;
-//     cout << "    /                  \\   " <<endl;
-//     cout << "   /                    \\    " <<endl;
-//     cout << "  |     x         x      |    " <<endl;
-//     cout << "  |                      |    " <<endl;
-//     cout << "  |          O O         |   " <<endl;
-//     cout << "   \\          -         /   " <<endl;
-//     cout << "    \\------------------/  " <<endl;
-// }
+class Pork:public Monster
+{
+private:
+public:
+    Pork(string name);
+    ~Pork();
+    void print();
+};
+Pork::Pork(string name): Monster(name) {}
+Pork::~Pork()
+{
+}
+void Pork::print()
+{
+    cout << "         /\\    / \\    " <<endl;
+    cout << "      --/  \\--/   \\--   " <<endl;
+    cout << "    /                  \\   " <<endl;
+    cout << "   /                    \\    " <<endl;
+    cout << "  |     x         x      |    " <<endl;
+    cout << "  |                      |    " <<endl;
+    cout << "  |          O O         |   " <<endl;
+    cout << "   \\          -         /   " <<endl;
+    cout << "    \\------------------/  " <<endl;
+}
 
 
-// class Beef:public Monster
-// {
-// private:
-//     /* data */
-// public:
-//     Beef(string name, Position position, int attackPower);
-//     ~Beef();
-//     void print();
-// };
-// Beef::Beef(string name, Position position, int attackPower): Monster(name, position)
-// {
-// }
-// Beef::~Beef()
-// {
-// }
-// void Beef::print()
-// {
-//     cout << "                " <<endl;
-//     cout << "                " <<endl;
-//     cout << "     /- ^---^-\\   " <<endl;
-//     cout << "    /   o   o  \\    " <<endl;
-//     cout << "    |           |   " <<endl;
-//     cout << "  /-             -\\  " <<endl;
-//     cout << " /      Mooooooo   \\    " <<endl;
-//     cout << "  \\                /  " <<endl;
-//     cout << "   \\ ------------ /  " <<endl;
-// }
+class Beef: public Monster
+{
+private:
+public:
+    Beef(string name);
+    ~Beef();
+    void print();
+};
+Beef::Beef(string name): Monster(name) {}
+Beef::~Beef()
+{
+}
+void Beef::print()
+{
+    cout << "                " <<endl;
+    cout << "                " <<endl;
+    cout << "     /- ^---^-\\   " <<endl;
+    cout << "    /   o   o  \\    " <<endl;
+    cout << "    |           |   " <<endl;
+    cout << "  /-             -\\  " <<endl;
+    cout << " /      Mooooooo   \\    " <<endl;
+    cout << "  \\                /  " <<endl;
+    cout << "   \\ ------------ /  " <<endl;
+}
 
 
 /////////////////////////////////////////////////////////////////////////////////////
@@ -387,7 +372,8 @@ void Character::putIntoBackPack(int moneyAmount)
 }
 void Character::putIntoBackPack(Monster& monster)
 {
-    this->backpack.monsterVector.push_back(&monster);
+    cout << "Wow" << endl;
+    backpack.monsterVector.push_back(&monster);
 }
 void Character::seeTheBackPackStatus()
 {
@@ -404,26 +390,26 @@ void Character::seeTheBackPackStatus()
         for (Monster* monster : backpack.monsterVector) {
             if (dynamic_cast<Tomato*>(monster)) {
                 tomatoCnt++;
-            // } else if (dynamic_cast<Egg*>(monster)) {
-            //     eggCnt++;
-            // } else if (dynamic_cast<Apple*>(monster)) {
-            //     appleCnt++;
-            // } else if (dynamic_cast<Lettuce*>(monster)) {
-            //     lettuceCnt++;
-            // } else if (dynamic_cast<Pork*>(monster)) {
-            //     porkCnt++;
-            // }
-            // else if (dynamic_cast<Beef*>(monster)) {
-            //     beefCnt++;
+            } else if (dynamic_cast<Egg*>(monster)) {
+                eggCnt++;
+            } else if (dynamic_cast<Apple*>(monster)) {
+                appleCnt++;
+            } else if (dynamic_cast<Lettuce*>(monster)) {
+                lettuceCnt++;
+            } else if (dynamic_cast<Pork*>(monster)) {
+                porkCnt++;
+            }
+            else if (dynamic_cast<Beef*>(monster)) {
+                beefCnt++;
             }
         }
         
         cout << "You have " << tomatoCnt << " tomato." << endl;
-        // cout << "You have " << eggCnt << " egg." << endl;
-        // cout << "You have " << appleCnt << " apple." << endl;
-        // cout << "You have " << lettuceCnt << " lettuce." << endl;
-        // cout << "You have " << porkCnt << " pork." << endl;
-        // cout << "You have " << beefCnt << " beef." << endl;
+        cout << "You have " << eggCnt << " egg." << endl;
+        cout << "You have " << appleCnt << " apple." << endl;
+        cout << "You have " << lettuceCnt << " lettuce." << endl;
+        cout << "You have " << porkCnt << " pork." << endl;
+        cout << "You have " << beefCnt << " beef." << endl;
 
     } else if (command == "quit") {
         cout << "Exiting backpack check." << endl;
