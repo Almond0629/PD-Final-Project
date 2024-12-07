@@ -270,11 +270,11 @@ Monster* MonsterTeam::operator[](int i) const
 
 
 
-int main()
-{
-    Position pos = {0, 5};
-    Apple tomato("hihi", pos, 100);
-    tomato.print();
-    return 0;
-}
+// int main()
+// {
+//     Position pos = {0, 5};
+//     Apple tomato("hihi", pos, 100);
+//     tomato.print();
+//     return 0;
+// }
 
