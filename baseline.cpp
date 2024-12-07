@@ -98,10 +98,11 @@ int main()
     cout << "..." << endl;
     sleep(2);
 
-    // type "start" to start game, "achievement" to check the previous made cuisine, "delete" to delte game history
+    // type "start" to start game, "achievement" to check the previous made cuisine, "delete" to delete game history
     //, "exit" to exit game, cout "invalid command" if the cin command matches none of these
 
     //=============="start"===============
+
     string menuCmd;
     while (getline(cin, menuCmd))
     {
@@ -148,7 +149,7 @@ int main()
             string characterName;
             cout << "Your name: " << endl;
             getline(cin, characterName);
-            Character player = Character(characterName, characterLife, {0,0});
+            Character player = Character(characterName, characterLife, {0,0}, 20);
 
             // cout the background story and instruction to the player
 
