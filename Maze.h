@@ -79,8 +79,8 @@ public:
     }
 
 
-    void generate(){
-        srand(time(0));
+    void generate(int rdnum){
+        srand(rdnum);
         generateMaze(1, 1); // Start maze generation from the top-left corner
         grid[playerY][playerX] = 0; // Ensure the player's starting position is a path
     }

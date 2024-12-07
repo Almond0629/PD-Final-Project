@@ -125,7 +125,7 @@ int main()
             switch (difficulty) {
                 case 1:
                     characterLife = 30;
-                    size = 11;
+                    size = 5;
                     break;
                 case 2:
                     characterLife = 25;
@@ -142,38 +142,38 @@ int main()
             for (int i = 0; i < 3; i++)
             {
                 dungeons[i] = new Maze(size);
-                dungeons[i]->generate();
+                dungeons[i]->generate(i);
             }
 
             //創建角色
             string characterName;
             cout << "Your name: " << endl;
+            cin >> std::ws;
             getline(cin, characterName);
             Character player = Character(characterName, characterLife, {0,0}, 20);
 
             // cout the background story and instruction to the player
+            cout << "好餓喔...午餐吃什麼" << endl;
+            sleep(1);
 
             //以輸入wasd控制玩家移動，每次移動都會更新terminal所顯示的地圖
             //也有其他指令可以輸入，"help"為顯示操作說明，"inventory"為打開背包，"exit"為離開遊戲
+            int currLevel = 0;
+            bool gameEnd = false;
+            dungeons[currLevel]->display();
+
             string inGameCmd;
-            do
-            {
-                cin >> std::ws;
-                getline(cin, inGameCmd);
-                cout << "Enter your command: \n";
-                //many if-else cases to determine the command
-                int currLevel = 0;
-                bool gameEnd = false;
-                dungeons[currLevel]->display();
-                if (gameEnd == false) {
-                    cout << inGameCmd << endl;
+            cout << "Enter your command: \n";
+            while (getline(cin, inGameCmd))
+            {              
+                if (gameEnd == false && currLevel < 3) {
+                    
+                    cout << "your cmd: " << inGameCmd << endl;
                     // dungeons[currLevel]->display();
                     if (inGameCmd == "w" || inGameCmd == "a" || inGameCmd == "s" || inGameCmd == "d")
                     {
-                        cout << "moved";
                         char moveCmd = inGameCmd[0];
                         dungeons[currLevel]->movePlayer(moveCmd, gameEnd);
-                        dungeons[currLevel]->display();
                     }
                     else if (inGameCmd == "help") 
                     {
@@ -207,23 +207,29 @@ int main()
                         {
                             cout << "Get achievement- \"Seriously?\" " << endl;
                             achievementGet("Seriously?");
-                            continue;
                         }
-                        else continue;
                     }
-                    else break;
+                    else 
+                    {
+                        cout << "invalid input!" << endl;
+                    }
+
+                    dungeons[currLevel]->display();
 
                     if (gameEnd && currLevel < 3) 
                     {
+                        cout << "Next level, let's gooo!" << endl;
                         currLevel++;   
                         gameEnd = false;
+                        if (currLevel < 3) dungeons[currLevel]->display();
                     }
-                    
-                    cout << gameEnd;
+                     
+                    cout << "gameEnd: " << gameEnd << endl; 
+                    cout << "currLevel: " << currLevel << endl; 
                 }
+                else break;
                     
             }
-            while (inGameCmd != "exit");
 
             cout << "..." << endl;
             sleep(2.5);
