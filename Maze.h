@@ -6,9 +6,7 @@
 
 using namespace std;
 
-const int PRIZE_CHANCE = 10; // Percentage chance to place a prize on the path
-const int MONSTER_CHANCE = 10; // Percentage chance to meet a monater on the map
-const int MAX_MONSTER_CNT = 40;
+const int MAX_MONSTER_CNT = 50;
 const char PLAYER_SYMBOL = 'P';
 
 // Directions for moving in the grid (up, down, left, right)
@@ -17,13 +15,16 @@ const int DY[4] = {0, 0, -1, 1};
 
 class Maze {
 private:
+    Character player;
     int mazeSize;
+    int prizeChance;   // Percentage chance to place a prize on the path
+    int monsterChance;   // Percentage chance to meet a monster on the map
     int playerX, playerY;   // Player position
     int** grid;
+    Monster* monsters[6];
 public:
-    MonsterTeam monsterTeam = MonsterTeam(MAX_MONSTER_CNT);
-    int collectedPrizes;
-    Maze(int _mazeSize) : playerX(1), playerY(1), collectedPrizes(0), mazeSize(_mazeSize) {
+    Maze(Character& _player, int _mazeSize, int _prizeChance, int _monsterChance) : 
+    player(_player), mazeSize(_mazeSize), prizeChance(_prizeChance), monsterChance(_monsterChance), playerX(1), playerY(1) {
         // Initialize the maze with walls
         grid = new int*[mazeSize + 2];
         for (int i = 0; i < mazeSize + 2; i++) {
@@ -32,6 +33,12 @@ public:
                 grid[i][j] = 1;
             }
         }
+        monsters[0] = new Tomato("番茄");
+        monsters[1] = new Egg("蛋");
+        monsters[2] = new Apple("蘋果");
+        monsters[3] = new Lettuce("生菜");
+        monsters[4] = new Pork("豬肉");
+        monsters[5] = new Beef("牛肉");
     }
     ~Maze() {
         for (int i = 0; i < mazeSize + 2; i++){
@@ -74,16 +81,21 @@ public:
     }
 
     void placePrize(int x, int y){
-        if (rand() % 100 < PRIZE_CHANCE){ // Place a prize with a certain chance
+        if (rand() % 100 < prizeChance){ // Place a prize with a certain chance
             if (x != 1 && y != 2){
-                grid[y][x] = 2;
+                grid[y][x] = 2;   // an ingredient
+            }
+        }
+        if (rand() % 100 < prizeChance){ 
+            if (x != 1 && y != 2 && grid[y][x] != 2){
+                grid[y][x] = 3;   // money
             }
         }
     }
 
 
-    void generate(int rdnum){
-        srand(rdnum + time(nullptr));
+    void generate(int randNum){
+        srand(randNum + time(nullptr));
         generateMaze(1, 1); // Start maze generation from the top-left corner
         grid[playerY][playerX] = 0; // Ensure the player's starting position is a path
     }
@@ -100,18 +112,21 @@ public:
                 else if (grid[i][j] == 2){
                     cout << "* "; // Prize
                 } 
+                else if (grid[i][j] == 3){
+                    cout << "$ ";
+                }
                 else {
                     cout << "　"; // Path
                 }
             }
             cout << "\n";
         }
-        cout << "Prizes collected: " << collectedPrizes << "\n\n";
+        // cout << "Prizes collected: " << collectedPrizes << "\n\n";
     }
 
-    void movePlayer(char direction, bool &gameEnd){
+    void movePlayer(char direction, bool &gameEnd, Character& player){
         int dx = 0, dy = 0;
-
+    
         if (direction == 'W' || direction == 'w'){
             dy = -1;
         } 
@@ -125,7 +140,7 @@ public:
             dx = 1;
         } 
         else {
-            cout << "Invalid input. Use W/A/S/D to move.\n";
+            cout << "不明指令。請輸入w/a/s/d！\n";
             return;
         }
 
@@ -137,22 +152,30 @@ public:
         }
         else {
             if (isInBounds(newX, newY) && grid[newY][newX] != 1) { // Check for walls
-                if (grid[newY][newX] == 2) {
-                    cout << "You collected a prize!\n";
-                    collectedPrizes++;
+                if (grid[newY][newX] == 2){
+                    int randInt = rand() % 6;
+                    player.putIntoBackPack(*monsters[randInt]);
+                    cout << "你蒐集到一個" << monsters[randInt]->getName() <<"！\n";
+                    // collectedPrizes++;
+                    grid[newY][newX] = 0;
+                }
+                else if (grid[newY][newX] == 3){
+                    int randInt = 1 + rand() % 10;
+                    player.putIntoBackPack(randInt);
+                    cout << "你撿到" << randInt << "元！\n";
                     grid[newY][newX] = 0;
                 }
                 playerX = newX;
                 playerY = newY;
             } 
             else {
-                cout << "You can't move there!\n";
+                cout << "撞牆！\n";
             }
         }
     }
 
     void didWeMeetMonster(bool &metMonster){
-        if (rand() % 100 < MONSTER_CHANCE){
+        if (rand() % 100 < monsterChance){
             metMonster = true;
         }
     }
