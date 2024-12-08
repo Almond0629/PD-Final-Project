@@ -48,7 +48,7 @@ int main()
             switch (difficulty) {
                 case 1:
                     characterLife = 20;
-                    size = 5;
+                    size = 11;
                     prizeChance = 8;
                     monsterChance = 8;
                     break;
