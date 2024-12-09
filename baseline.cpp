@@ -232,8 +232,9 @@ int main()
 
 void printInstruction()
 {
+    cout << "you can type in: "<< endl;
     cout << "-help- show this instruction" << endl;
-    cout << "-inventory- open your backpack" << endl;
+    cout << "-backpack- open your backpack and see your stuff" << endl;
     cout << "-achievement- show your achievement" << endl;
     cout << "-w- move upward" << endl;
     cout << "-a- move left" << endl;
