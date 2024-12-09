@@ -162,8 +162,8 @@ public:
                 }
                 else if (grid[newY][newX] == 3){
                     int randInt = 1 + rand() % 10;
-                    player.putIntoBackPack(randInt);
                     cout << "你撿到" << randInt << "元！\n";
+                    player.putIntoBackPack(randInt);
                     grid[newY][newX] = 0;
                 }
                 playerX = newX;
