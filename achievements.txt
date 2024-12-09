@@ -1,5 +1,5 @@
 0 Seriously? 
-在離開遊戲時輸入"其他東西"
+離開在遊戲時輸入"其他東西"
 0 Master Chef
 完成所有菜
 0 Terrible Maze Solving

@@ -41,6 +41,7 @@ int main()
             cout << "簡單：1" << "\n";
             cout << "正常：2" << "\n";
             cout << "困難：3" << "\n";
+            sleep(1.8);
             
             while (difficulty != 1 && difficulty != 2 && difficulty != 3)
             {
@@ -75,6 +76,7 @@ int main()
             cout << "請輸入名字： " << endl;
             cin >> std::ws;
             getline(cin, characterName);
+            sleep(2);
             Position pos;
             pos.x = 0;
             pos.y = 0;
@@ -96,23 +98,8 @@ int main()
             }
 
             // cout the background story and instruction to the player
-<<<<<<< HEAD
-            cout << "好餓喔...昨天才多虧那個該死的WA，debug到早上7點才睡，又有早九，我快死了" << endl;
-            sleep(3.5);
-            cout << "\"迷宮飯餐廳\"...? 新開的嗎? 聽起來不錯吃，進去看看吧" << endl;
-            sleep(3.2);
-            cout << "(進到了餐廳，結果完全不是餐廳的樣子，而是如迷宮一般的石穴)" << endl;
-            sleep(3.2);
-            cout << "這什麼地方啊，還是換一家好了" << endl;
-            sleep(3.2);
-            cout << "(你正想離開，卻發現本來是入口的地方變成了堅實的大岩壁)" << endl;
-            sleep(3);
             cout << "..." << endl;
-            sleep(2.5);
-            printInstruction();
-            sleep(4);
-
-=======
+            sleep(delay);
             cout << "你在總圖轟轟烈烈地讀了12個小時的書" << endl;
             sleep(delay);
             cout << "突然感覺到一陣暈眩!!!" << endl;
@@ -123,9 +110,11 @@ int main()
             sleep(delay);
             cout << "試著在迷宮裡收集食材、打敗怪物、並決定你的午餐吧!" << endl;
             sleep(delay);
-            cout << "需要任何幫忙請輸入help" << endl;
+            cout << "..." << endl;
+            sleep(3);
+            printInstruction();
             sleep(delay);
->>>>>>> d1b4434ae65587a0198cb8c6efd5a08a503fa654
+
             //以輸入 wasd 控制玩家移動，每次移動都會更新terminal所顯示的地圖
             //也有其他指令可以輸入，"help"為顯示操作說明，"backpack"為打開背包，"exit"為離開遊戲
             int currLevel = 0;
@@ -134,7 +123,6 @@ int main()
             dungeons[currLevel]->display();
 
             string inGameCmd;
-            cout << "輸入指令w/s/a/d來控制上/下/左/右： \n";
             cin >> std::ws;
             while (getline(cin, inGameCmd))
             {              
