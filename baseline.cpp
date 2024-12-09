@@ -47,8 +47,16 @@ int main()
             while (difficulty != 1 && difficulty != 2 && difficulty != 3)
             {
                 cin >> difficulty;
+                if (cin.fail())
+                {
+                    cin.clear(); // Clear the error flag
+                    cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Discard invalid input
+                    cout << "無效輸入！請輸入數字 1, 2 或 3。\n";
+                    continue;
+                }
+
                 if (difficulty != 1 && difficulty != 2 && difficulty != 3)
-                    cout << "請重新輸入難易度！";
+                    cout << "請重新輸入難易度！" << endl;
             }
 
             switch (difficulty) {
@@ -188,8 +196,11 @@ int main()
                         cout << "恭喜來到下一層！" << endl;
                         sleep(2);
                         currLevel++;   
-                        gameEnd = false;
-                        if (currLevel < 3) dungeons[currLevel]->display();
+                        if (currLevel < 3) 
+                        {
+                            dungeons[currLevel]->display();
+                            gameEnd = false;
+                        }
                         else break;
                     }
                     else {
@@ -202,28 +213,32 @@ int main()
 
             }
 
-            cout << "..." << endl;
-            sleep(2.5);
-            cout << "(你似乎來到了一個房間，中間擺著一個鍋釜，牆上的水晶發出微弱又溫和的光線，地板不再粗糙而是經過打磨，看來終於來到了終點的寶物間)" << endl;
-            sleep(5.5);
-            cout << "乾，都已經夠餓了，還要走迷宮打怪，結果甚至不是拿到煮好的料理，這是什麼鬼餐廳啊" << endl;
-            sleep(4.5);
-            cout << "這是什麼? \"魔法鍋子 將食材放進以自動料理\"" << endl;
-            sleep(4);
-            cout << "什麼鬼，不就自動料理機，這旁邊甚至有插電哎，這算什麼寶物間啊" << endl;
-            sleep(4.2);
-            cout << "算了真的好餓，把背包的食材丟進去看看吧" << endl;
-            sleep(4);
-            player.cooking();
-            cout << "謝謝完成本遊戲！希望你會喜歡！\n";
-            sleep(2);
-            achievementGet("The End");
-            sleep(2);
-            cout << "...\n";
-            sleep(2);
+            if (gameEnd)
+            {
+                cout << "..." << endl;
+                sleep(2.5);
+                cout << "(你似乎來到了一個房間，中間擺著一個鍋釜，牆上的水晶發出微弱又溫和的光線，地板不再粗糙而是經過打磨，看來終於來到了終點的寶物間)" << endl;
+                sleep(5.5);
+                cout << "乾，都已經夠餓了，還要走迷宮打怪，結果甚至不是拿到煮好的料理，這是什麼鬼餐廳啊" << endl;
+                sleep(4.5);
+                cout << "這是什麼? \"魔法鍋子 將食材放進以自動料理\"" << endl;
+                sleep(4);
+                cout << "什麼鬼，不就自動料理機，這旁邊甚至有插電哎，這算什麼寶物間啊" << endl;
+                sleep(4.2);
+                cout << "算了真的好餓，把背包的食材丟進去看看吧" << endl;
+                sleep(4);
+                player.cooking();
+                cout << "謝謝完成本遊戲！希望你會喜歡！\n";
+                sleep(2);
+                achievementGet("The End");
+                sleep(2);
+                cout << "...\n";
+                sleep(2);
 
-            cout << "輸入任何按鍵返回主選單" << endl;
-            gameStart = false;
+                cout << "輸入任何按鍵返回主選單" << endl;
+                gameStart = false;
+            }
+            
         }
 
         //================"achievement"=====================

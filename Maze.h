@@ -105,7 +105,7 @@ public:
         for (int i = 0; i < mazeSize + 2; i++){
             for (int j = 0; j < mazeSize + 2; j++){
                 if (i == playerY && j == playerX){
-                    cout << PLAYER_SYMBOL << " "; // Show the player's position
+                    cout << "\033[31m" << PLAYER_SYMBOL << "\033[0m" << " "; // Show the player's position
                 } 
                 else if (grid[i][j] == 1){
                     cout << "▧ "; // Wall

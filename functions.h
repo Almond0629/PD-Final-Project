@@ -18,6 +18,12 @@ void printInstruction()
     cout << "輸入\"achievement\"查看獲得的成就" << endl;
     cout << "輸入\"backpack\"打開背包" << endl;
     cout << "輸入\"menu\"返回主選單" << endl;
+    cout << endl;
+    cout << "P - 玩家" << endl;
+    cout << "▧ - 障礙物" << endl;
+    cout << "$ - 金幣(可拾取)" << endl;
+    cout << "* - 食材(可拾取)" << endl;
+    cout << "使用w/a/s/d操作玩家移動，突破迷宮吧！" << endl;
     cout << "==================================" << endl;
 }
 
