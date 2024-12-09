@@ -98,6 +98,7 @@ public:
         srand(randNum + time(nullptr));
         generateMaze(1, 1); // Start maze generation from the top-left corner
         grid[playerY][playerX] = 0; // Ensure the player's starting position is a path
+        grid[mazeSize][mazeSize + 1] = 0; // Ensure the exit is a path
     }
 
     void display() {
@@ -147,7 +148,7 @@ public:
         int newX = playerX + dx;
         int newY = playerY + dy;
 
-        if (newX == mazeSize && newY == mazeSize){
+        if (newX == mazeSize + 1 && newY == mazeSize){
             gameEnd = true;
         }
         else {

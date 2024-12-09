@@ -16,9 +16,11 @@ bool achievementGet(const string achievementName);
 int main()
 {
     // game.exe execute 開頭台詞
-    cout << endl;
-    cout << "輸入\"start\"開始遊戲\n";
-    sleep(1);
+    cout << "歡迎來到迷宮飯餐廳！" << endl;
+    sleep(2.5);
+    cout << "..." << endl;
+    sleep(2.5);
+    cout << "輸入任何按鍵以開始" << endl;
 
     // type "start" to start game, "achievement" to check the previous made cuisine, "delete" to delete game history
     //, "exit" to exit game, cout "invalid command" if the cin command matches none of these
@@ -26,6 +28,7 @@ int main()
     //=============="start"===============
 
     string menuCmd;
+    bool gameStart = false;
     cin >> std::ws;
     while (getline(cin, menuCmd))
     {
@@ -92,8 +95,20 @@ int main()
             }
 
             // cout the background story and instruction to the player
-            cout << "好餓喔...午餐吃什麼" << endl;
-            sleep(2);
+            cout << "好餓喔...昨天才多虧那個該死的WA，debug到早上7點才睡，又有早九，我快死了" << endl;
+            sleep(3.5);
+            cout << "\"迷宮飯餐廳\"...? 新開的嗎? 聽起來不錯吃，進去看看吧" << endl;
+            sleep(3.2);
+            cout << "(進到了餐廳，結果完全不是餐廳的樣子，而是如迷宮一般的石穴)" << endl;
+            sleep(3.2);
+            cout << "這什麼地方啊，還是換一家好了" << endl;
+            sleep(3.2);
+            cout << "(你正想離開，卻發現本來是入口的地方變成了堅實的大岩壁)" << endl;
+            sleep(3);
+            cout << "..." << endl;
+            sleep(2.5);
+            printInstruction();
+            sleep(4);
 
             //以輸入 wasd 控制玩家移動，每次移動都會更新terminal所顯示的地圖
             //也有其他指令可以輸入，"help"為顯示操作說明，"inventory"為打開背包，"exit"為離開遊戲
@@ -132,9 +147,9 @@ int main()
                     {
                         player.seeTheBackPackStatus();
                     }
-                    else if (inGameCmd == "exit") 
+                    else if (inGameCmd == "menu") 
                     {
-                        cout << "遊戲歷史不會被儲存，但是所得成就會，確認要退出嗎？" << endl;
+                        cout << "遊戲歷史不會被儲存，但是所得成就會，確認要退出本局遊戲嗎？" << endl;
                         cout << "輸入\"yes\"離開遊戲，或輸入其他東西回到主畫面。" << endl;
                         string exitCmd;
                         cin >> std::ws;
@@ -148,6 +163,9 @@ int main()
                         {
                             cout << "Get achievement- \"Seriously?\" " << endl;
                             achievementGet("Seriously?");
+
+                            cout << "輸入任何按鍵返回" << endl;
+                            gameStart = false;
                         }
                     }
                     else 
@@ -159,10 +177,13 @@ int main()
 
                     if (gameEnd && currLevel < 3) 
                     {
-                        cout << "恭喜過關！" << endl;
+                        cout << "==================================" << endl;
+                        cout << "恭喜來到下一層！" << endl;
+                        sleep(2);
                         currLevel++;   
                         gameEnd = false;
                         if (currLevel < 3) dungeons[currLevel]->display();
+                        else break;
                     }
                     else {
                         cin >> std::ws;
@@ -171,6 +192,7 @@ int main()
                 else {
                     break;
                 }
+
             }
 
             cout << "..." << endl;
@@ -186,20 +208,26 @@ int main()
             cout << "算了真的好餓，把背包的食材丟進去看看吧" << endl;
             sleep(4);
             player.cooking();
-            cout << "回到主畫面。\n";
+            cout << "謝謝完成本遊戲！希望你會喜歡。\n";
+
+            cout << "輸入任何按鍵返回主選單" << endl;
+            gameStart = false;
         }
 
         //================"achievement"=====================
         else if (menuCmd == "achievement")
         {
             printFileContents();
+
+            cout << "輸入任何按鍵返回主選單" << endl;
+            gameStart = false;
         }
 
         //=================="exit"=======================
         else if (menuCmd == "exit")
         {
-            cout << "遊戲歷史不會被儲存，但是所得成就會，確認要退出嗎？" << endl;
-            cout << "輸入\"yes\"離開遊戲，或輸入其他東西回到主畫面。" << endl;
+            cout << "遊戲歷史不會被儲存，但是所得成就會被保存，確認要退出嗎？" << endl;
+            cout << "輸入\"yes\"離開遊戲，或輸入其他東西以取消。" << endl;
             string exitCmd;
             cin >> std::ws;
             getline(cin, exitCmd);
@@ -212,9 +240,18 @@ int main()
             {
                 cout << "Get achievement- \"Seriously?\" " << endl;
                 achievementGet("Seriously?");
-                continue;
             }
             else continue;
+        }
+        else
+        {
+            if (!gameStart) gameStart = true;
+            else cout << "不明輸入！請重新輸入" << endl;
+            
+            cout << "輸入\"start\"開始遊戲" << endl;
+            cout << "輸入\"achievement\"檢視獲得的成就" << endl;
+            cout << "輸入\"exit\"離開遊戲" << endl;
+
         }
     }
     
@@ -222,14 +259,16 @@ int main()
 
 void printInstruction()
 {
-    cout << "-help- show this instruction" << endl;
-    cout << "-inventory- open your backpack" << endl;
-    cout << "-achievement- show your achievement" << endl;
-    cout << "-w- move upward" << endl;
-    cout << "-a- move left" << endl;
-    cout << "-s- move backward" << endl;
-    cout << "-d- move right" << endl;
-    cout << "-exit- exit the game" << endl;
+    cout << "==================================" << endl;
+    cout << "輸入\"w\"向上移動" << endl;
+    cout << "輸入\"a\"向左移動" << endl;
+    cout << "輸入\"s\"向下移動" << endl;
+    cout << "輸入\"d\"向右移動" << endl;
+    cout << "輸入\"help\"呼叫出此選單" << endl;
+    cout << "輸入\"achievement\"查看獲得的成就" << endl;
+    cout << "輸入\"backpack\"打開背包" << endl;
+    cout << "輸入\"menu\"返回主選單" << endl;
+    cout << "==================================" << endl;
 }
 
 //獲得成就(generated by chatgpt)

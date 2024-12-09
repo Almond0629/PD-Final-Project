@@ -441,12 +441,14 @@ void Character::seeTheBackPackStatus()
     } 
     else if (command == "monster") {
 
+        cout << "==================================" << endl;
         cout << "你有 " << backpack.tomatoCnt << " 顆番茄。" << endl;
         cout << "你有 " << backpack.eggCnt << " 顆蛋。" << endl;
         cout << "你有 " << backpack.appleCnt << " 顆蘋果。" << endl;
         cout << "你有 " << backpack.lettuceCnt << " 頭生菜。" << endl;
         cout << "你有 " << backpack.porkCnt << " 塊豬肉。" << endl;
         cout << "你有 " << backpack.beefCnt << " 塊牛肉。" << endl;
+        cout << "==================================" << endl;
 
     } else if (command == "quit") {
         cout << "背包拉鍊拉起中。" << endl;
