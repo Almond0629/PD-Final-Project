@@ -384,6 +384,7 @@ private:
 public:
     Character(string name, int life,  Position position, int money);
     ~Character();
+    bool restart();
     bool playOrPay();
     void fight(Monster& monster);
     void move(Position position);
