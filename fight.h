@@ -109,9 +109,13 @@ bool Character::playOrPay(){
 }
 
 void Character::fight(Monster& monster){
+    sleep(delayTime);
     cout << "野生的 " << monster.name << " 突然跳出來擋著你！" << endl;
+    sleep(delayTime);
     cout << "他決定以剪刀石頭布來對戰！" << endl;
+    sleep(delayTime);
     if(playOrPay()){ // accept the challenge
+        sleep(delayTime);
         while (life > 0) {
             cout << "輸入 5 (布)，2 (剪刀)，0 (石頭) 來對戰。" << endl;
             cout << "輸入你的選擇： ";
@@ -130,8 +134,10 @@ void Character::fight(Monster& monster){
                 (playerChoice == "2" && monsterChoice == 5) || 
                 (playerChoice == "0" && monsterChoice == 2)) {
                 putIntoBackPack(monster);
-                cout << "你獲勝！ 已收服了 " << monster.name << " 進你的背包！" << endl;
+                cout << this->name << " 你贏了！ 已收服 " << monster.name << " 進你的背包！" << endl;
+                sleep(delayTime);
                 cout << "繼續冒險下去，並找到更多食材吧！" << endl;
+                sleep(delayTime);
                 break;
             } 
             // player lost
@@ -140,9 +146,11 @@ void Character::fight(Monster& monster){
                     (monsterChoice == 0 && playerChoice == "2")) {
                 cout << "啊！你輸了！" << endl;
                 life--;
+                sleep(delayTime);
                 if(life == 0) { break; }
                 else{
                     cout << "剩餘的生命值：" << life << endl;
+                    sleep(delayTime);
                     break;
                 }
             } 
@@ -153,6 +161,7 @@ void Character::fight(Monster& monster){
             
             if (life == 0) {
                 cout << "你被煮了！" << endl;
+                sleep(delayTime);
                 if(this->restart()) continue;
                 else gameOver();
             }
@@ -160,6 +169,7 @@ void Character::fight(Monster& monster){
     }
     if (life == 0) {
         cout << "你被煮了！" << endl;
+        sleep(delayTime);
         if(!this->restart()) gameOver();
     }
 
