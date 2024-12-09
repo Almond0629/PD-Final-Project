@@ -115,7 +115,6 @@ void Character::fight(Monster& monster){
     cout << "他決定以剪刀石頭布來對戰！" << endl;
     sleep(delayTime);
     if(playOrPay()){ // accept the challenge
-        sleep(delayTime);
         while (life > 0) {
             cout << "輸入 5 (布)，2 (剪刀)，0 (石頭) 來對戰。" << endl;
             cout << "輸入你的選擇： ";
