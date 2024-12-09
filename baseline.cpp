@@ -135,7 +135,9 @@ int main()
                         if (metMonster){
                             cout << "遇到怪物！\n";
                             srand(time(nullptr));
-                            player.fight(*monsterArray[rand() % 6]);
+                            int r = rand() % 6;
+                            monsterArray[r]->print();
+                            player.fight(*monsterArray[r]);
                             metMonster = false;
                         }
                     }
