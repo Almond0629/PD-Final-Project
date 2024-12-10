@@ -67,7 +67,7 @@ bool achievementGet(const string achievementName)
     }
 
     // Write the modified content back to the file
-    for (const auto &modifiedLine : lines) {
+    for (const string &modifiedLine : lines) {
         outFile << modifiedLine << "\n";
     }
 
