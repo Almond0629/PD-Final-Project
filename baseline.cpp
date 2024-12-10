@@ -61,22 +61,22 @@ int main()
 
             switch (difficulty) {
                 case 1:
-                    characterLife = 10;
-                    size = 3;
+                    characterLife = 5;
+                    size = 9;
                     prizeChance = 12;
-                    monsterChance = 8;
+                    monsterChance = 7;
                     break;
                 case 2:
-                    characterLife = 10;
-                    size = 15;
-                    prizeChance = 10;
-                    monsterChance = 10;
+                    characterLife = 5;
+                    size = 11;
+                    prizeChance = 12;
+                    monsterChance = 9;
                     break;
                 case 3:
-                    characterLife = 10;
-                    size = 19;
-                    prizeChance = 8;
-                    monsterChance = 12;
+                    characterLife = 5;
+                    size = 13;
+                    prizeChance = 12;
+                    monsterChance = 11;
                     break;
             }
 
@@ -176,7 +176,6 @@ int main()
                         }
                         else if (exitCmd == "其他東西")
                         {
-                            cout << "Get achievement- \"Seriously?\" " << endl;
                             achievementGet("Seriously?");
 
                             cout << "輸入任何按鍵返回" << endl;
@@ -268,7 +267,6 @@ int main()
                 cout << "Get achievement- \"Seriously?\" " << endl;
                 achievementGet("Seriously?");
             }
-            else continue;
         }
         else
         {

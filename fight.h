@@ -4,6 +4,7 @@
 #include <chrono>
 #include <thread>
 #include "characterMonster.h"
+#include "functions.h"
 using namespace std;
 
 const int delayTime = 2;
@@ -114,6 +115,7 @@ void Character::fight(Monster& monster){
     sleep(delayTime);
     cout << "他決定以剪刀石頭布來對戰！" << endl;
     sleep(delayTime);
+    int tieCnt = 0;
     if(playOrPay()){ // accept the challenge
         while (life > 0) {
             cout << "輸入 5 (布)，2 (剪刀)，0 (石頭) 來對戰。" << endl;
@@ -121,7 +123,7 @@ void Character::fight(Monster& monster){
             string playerChoice;
             cin >> std::ws;
             getline(cin, playerChoice);
-    
+
             if (playerChoice != "5" && playerChoice != "2" && playerChoice != "0") {
                 cout << "不明的輸入，請輸入 5 (布)，2 (剪刀)，0 (石頭)！" << endl;
                 continue;
@@ -155,6 +157,8 @@ void Character::fight(Monster& monster){
             } 
             else {
                 cout << "平手！再輸入一次！" << endl;
+                tieCnt ++;
+                if (tieCnt == 4) achievementGet("Destinied");
                 continue;
             }
             

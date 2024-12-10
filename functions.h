@@ -55,6 +55,7 @@ bool achievementGet(const string achievementName)
         if (lines[i].find(achievementName) != string::npos) { // Replace "Ending" with the achievement you want to change
             if (lines[i][0] == '0') {
                 lines[i][0] = '1'; // Change '0' to '1' to mark as completed
+                cout << "Get achievement- \"" << achievementName << "\"" << endl;
             } 
         }
     }
@@ -88,6 +89,8 @@ void printAchievements()
         cerr << "Error opening file for reading!" << endl;
     }
 
+    cout << "=========================" << endl;
+
     string line1, line2;
     while (getline(inFile, line1)) {
         // Skip the boolean flag (first element of each pair of lines)
@@ -118,5 +121,7 @@ void printAchievements()
         }
         
     }
+
+    cout << "=========================" << endl;
 
 }
