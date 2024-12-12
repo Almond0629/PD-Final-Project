@@ -118,7 +118,7 @@ public:
     bool playOrPay();
     void fight(Monster& monster);
     void move(Position position);
-    void winOrLoseTheGame(bool winCharacter);
+    // void winOrLoseTheGame(bool winCharacter);
     Position getCharacterPosition(const Character& c);
     void reduceMoneyAndPrint(int amount);
     void putIntoBackPack(int money);

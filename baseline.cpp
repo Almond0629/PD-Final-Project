@@ -60,19 +60,19 @@ int main()
                 case 1:
                     characterLife = 5;
                     size = 11;
-                    prizeChance = 12;
+                    prizeChance = 8;
                     monsterChance = 7;
                     break;
                 case 2:
                     characterLife = 5;
                     size = 13;
-                    prizeChance = 12;
+                    prizeChance = 8;
                     monsterChance = 9;
                     break;
                 case 3:
                     characterLife = 5;
                     size = 15;
-                    prizeChance = 12;
+                    prizeChance = 8;
                     monsterChance = 11;
                     break;
             }

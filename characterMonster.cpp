@@ -351,7 +351,7 @@ bool Character::restart(){
     getline(cin, answer);
     
     if (answer == "Y" || answer == "y") {
-        if(backpack.money < 10 && (backpack.beefCnt == 0 || backpack.tomatoCnt == 0)){
+        if(backpack.money < 15 && (backpack.beefCnt == 0 || backpack.tomatoCnt == 0)){
             cout << "你的錢包餘額: " << backpack.money << endl;
             cout << "錢包餘額不足!" << endl;
             cout << "你剩下 " << backpack.tomatoCnt << " 顆番茄與" << backpack.beefCnt << " 塊牛肉。" << endl;
@@ -361,7 +361,7 @@ bool Character::restart(){
         }
         else {
             cout << "你的錢包餘額: " << backpack.money << endl;
-            if(backpack.money < 10) {
+            if(backpack.money < 15) {
                 cout << "錢包餘額不足!" << endl;
                 cout << "你剩下 " << backpack.tomatoCnt << " 顆番茄與" << backpack.beefCnt << " 塊牛肉。" << endl;
                 cout << "大廚使用了一顆番茄與一塊牛肉做成營養的番茄牛肉燉湯!" << endl;
@@ -374,7 +374,7 @@ bool Character::restart(){
             else{
                 cout << "太棒了!辛苦賺來的錢足以讓你復活!" << endl;
                 sleep(delayTime);
-                backpack.money -= 10;
+                backpack.money -= 15;
                 cout << "你的錢包餘額: " << backpack.money << endl;
             }
             this->life++;
@@ -469,7 +469,7 @@ void Character::fight(Monster& monster){
             else {
                 cout << "平手！再輸入一次！" << endl;
                 tiedCnt++;
-                if (tiedCnt) achievementGet("Destiny");
+                if (tiedCnt == 4) achievementGet("Destiny");
                 continue;
             }
             
