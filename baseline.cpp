@@ -1,19 +1,16 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <limits>
 #include <vector>
 #include "unistd.h"
 #include "Maze.h"
 #include "characterMonster.h"
-#include "fight.h"
 #include "functions.h"
 
 using namespace std;
 
 const int delay = 2;
-void printInstruction();
-void printAchievements();
-bool achievementGet(const string achievementName);
 
 int main()
 {

@@ -6,6 +6,7 @@
 #include <utility>
 #include <unistd.h>
 #include"characterMonster.h"
+#include "functions.h"
 using namespace std;
 
 const int delayTime = 2;
@@ -151,7 +152,7 @@ void Backpack::addMonster(Monster* monster)
 }
 
 // Recipe methods
-Recipe::Recipe(string _dishName, vector<string> _ingredients) : dishName(_dishName), ingredients(_ingredients) {}
+Recipe::Recipe(string _dishName, vector<string> _ingredients) : dishName(_dishName), ingredients(_ingredients), beingCooked(false) {}
 
 // Character methods
 Character::Character(string name, int life, Position position, int money)
@@ -199,7 +200,7 @@ void Character::consumeIngredients(const Recipe& recipe) {
 vector<Recipe>Character::getAvailableDishes() {
     vector<Recipe> availableDishes;
     for (int i = 0; i < recipes.size(); i++){
-        if (canCook(recipes[i])) {
+        if (canCook(recipes[i]) && recipes[i].beingCooked == false) {
             availableDishes.push_back(recipes[i]);
         }
     }
@@ -276,6 +277,33 @@ void Character::cooking() {
         getline(cin, wannaCookDish);
         if (wannaCookDish == "quit") {
             cout << "退出烹飪模式。\n";
+            sleep(delayTime);
+
+            if (dishes.size() == 0)
+            {
+                cout << "你什麼料理都沒做出來，看來今天註定只能在飢餓中debug了\n";
+            }
+            else 
+            {
+                for (size_t i = 0; i < dishes.size(); ++i) {
+                    cout << "你總共製作了: " << i + 1 << ". " << dishes[i] << endl;
+                }
+                sleep(delayTime);
+                cout << "吃著你的午餐，你又充滿了活力，又有能量可以繼續de 12小時的bug了\n";
+                sleep(4);
+
+                bool masterChef = true;
+                for (size_t i = 0; i < recipes.size(); i++)
+                {
+                    if (recipes[i].beingCooked == 0) masterChef = false;
+                }
+                if (masterChef) 
+                {
+                    achievementGet("Master Chef");
+                    sleep(delayTime);
+                }
+            }
+
             break;
         }
 
@@ -286,6 +314,7 @@ void Character::cooking() {
 
                 // 將選擇的菜加入已製作列表
                 dishes.push_back(availableDishes[i].dishName);
+                recipes[i].beingCooked == true;
 
                 // 消耗食材
                 consumeIngredients(availableDishes[i]);
@@ -398,6 +427,7 @@ void Character::fight(Monster& monster){
     cout << "他決定以剪刀石頭布來對戰！" << endl;
     sleep(delayTime);
     if(playOrPay()){ // accept the challenge
+    int tiedCnt = 0;
         while (life > 0) {
             cout << "輸入 5 (布)，2 (剪刀)，0 (石頭) 來對戰。" << endl;
             cout << "輸入你的選擇： ";
@@ -438,11 +468,15 @@ void Character::fight(Monster& monster){
             } 
             else {
                 cout << "平手！再輸入一次！" << endl;
+                tiedCnt++;
+                if (tiedCnt) achievementGet("Destinied");
                 continue;
             }
             
             if (life == 0) {
                 cout << "你被煮了！" << endl;
+                sleep(delayTime);
+                achievementGet("Monster's lunch");
                 sleep(delayTime);
                 if(this->restart()) continue;
                 else gameOver();
@@ -451,6 +485,8 @@ void Character::fight(Monster& monster){
     }
     if (life == 0) {
         cout << "你被煮了！" << endl;
+        sleep(delayTime);
+        achievementGet("Monster's lunch");
         sleep(delayTime);
         if(!this->restart()) gameOver();
     }

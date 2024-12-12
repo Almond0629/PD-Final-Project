@@ -2,10 +2,10 @@
 離開在遊戲時輸入"其他東西"
 0 Master Chef
 完成所有菜
-0 Terrible Maze Solving
-在步以上解謎宮
-0 Destinied
+0 Destiny
 和怪物猜拳連續4次平手
-1 The End
+0 Monster's lunch
+在遊戲內死掉
+0 The End
 完成遊戲
 

@@ -94,6 +94,7 @@ struct Recipe
     string dishName;
     vector<string> ingredients;
     Recipe(string _dishName, vector<string> _ingredients);
+    bool beingCooked;
 };
 
 class Character
