@@ -6,6 +6,6 @@
 在步以上解謎宮
 0 Destinied
 和怪物猜拳連續4次平手
-0 The End
+1 The End
 完成遊戲
 
