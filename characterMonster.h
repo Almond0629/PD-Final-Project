@@ -6,7 +6,7 @@
 #include <ctime>
 using namespace std;
 
-struct Position
+struct Position   // for future purposes
 {
     int x;
     int y;
@@ -20,7 +20,7 @@ class Monster
 
 protected:
     string name;
-    bool alive;
+    bool alive;   // for future purposes
 
 public:
     Monster(string name);

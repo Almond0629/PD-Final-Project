@@ -469,7 +469,7 @@ void Character::fight(Monster& monster){
             else {
                 cout << "平手！再輸入一次！" << endl;
                 tiedCnt++;
-                if (tiedCnt) achievementGet("Destinied");
+                if (tiedCnt) achievementGet("Destiny");
                 continue;
             }
             
