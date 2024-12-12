@@ -4,9 +4,9 @@
 #include <limits>
 #include <vector>
 #include "unistd.h"
-#include "Maze.h"
-#include "characterMonster.h"
-#include "functions.h"
+#include "Maze.cpp"
+#include "characterMonster.cpp"
+#include "functions.cpp"
 
 using namespace std;
 
@@ -34,7 +34,7 @@ int main()
         if (menuCmd == "start")
         {
             // type "easy", "normal", "hard" to switch difficulty, and change parameters depends on difficulty
-            int difficulty, characterLife, size, prizeChance, monsterChance;
+            int difficulty = 0, characterLife, size, prizeChance, monsterChance;
             cout << "請輸入難易度: " << "\n";
             cout << "簡單：1" << "\n";
             cout << "正常：2" << "\n";
@@ -58,20 +58,20 @@ int main()
 
             switch (difficulty) {
                 case 1:
-                    characterLife = 1;
-                    size = 9;
+                    characterLife = 5;
+                    size = 11;
                     prizeChance = 12;
                     monsterChance = 7;
                     break;
                 case 2:
                     characterLife = 5;
-                    size = 11;
+                    size = 13;
                     prizeChance = 12;
                     monsterChance = 9;
                     break;
                 case 3:
                     characterLife = 5;
-                    size = 13;
+                    size = 15;
                     prizeChance = 12;
                     monsterChance = 11;
                     break;
@@ -132,7 +132,7 @@ int main()
             cin >> std::ws;
             while (getline(cin, inGameCmd))
             {              
-                if (gameEnd == false && currLevel < 3) {
+                if (gameEnd == false && currLevel < 2) {
                     if (inGameCmd == "w" || inGameCmd == "a" || inGameCmd == "s" || inGameCmd == "d")
                     {
                         char moveCmd = inGameCmd[0];
@@ -192,7 +192,7 @@ int main()
                         cout << "恭喜來到下一層！" << endl;
                         sleep(delay);
                         currLevel++;   
-                        if (currLevel < 3) 
+                        if (currLevel < 2) 
                         {
                             dungeons[currLevel]->display();
                             gameEnd = false;

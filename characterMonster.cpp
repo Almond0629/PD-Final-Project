@@ -6,7 +6,7 @@
 #include <utility>
 #include <unistd.h>
 #include"characterMonster.h"
-#include "functions.h"
+#include "functions.cpp"
 using namespace std;
 
 const int delayTime = 2;
@@ -314,7 +314,7 @@ void Character::cooking() {
 
                 // 將選擇的菜加入已製作列表
                 dishes.push_back(availableDishes[i].dishName);
-                recipes[i].beingCooked == true;
+                recipes[i].beingCooked = true;
 
                 // 消耗食材
                 consumeIngredients(availableDishes[i]);
