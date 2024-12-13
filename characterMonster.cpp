@@ -164,7 +164,7 @@ Character::Character(string name, int life, Position position, int money)
 {}
 Character::~Character() {}
 
-void Character::vo(Position position)
+void Character::move(Position position)
 {
     this->position.x += position.x;
     this->position.y += position.y;

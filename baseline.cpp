@@ -39,7 +39,7 @@ int main()
             cout << "簡單：1" << "\n";
             cout << "正常：2" << "\n";
             cout << "困難：3" << "\n";
-            sleep(delay);
+            sleep(1);
             
             while (difficulty != 1 && difficulty != 2 && difficulty != 3)
             {
@@ -108,9 +108,9 @@ int main()
             sleep(delay);
             cout << "你在總圖轟轟烈烈地de了12個小時的bug" << endl;
             sleep(delay);
-            cout << "突然感覺到一陣暈眩!!!" << endl;
-            sleep(delay);
             cout << "你想著: 好餓喔...午餐吃什麼" << endl;
+            sleep(delay);
+            cout << "突然感覺到一陣暈眩!!!" << endl;
             sleep(delay);
             cout << "此時你已經進入了神秘且險惡的迷宮!" << endl;
             sleep(delay);
@@ -168,14 +168,13 @@ int main()
                         getline(cin, exitCmd);
                         if (exitCmd == "yes") 
                         {
-                            cout << "餓了再見~" << endl;
-                            return 0;
+                            cout << "輸入任何按鍵返回主選單" << endl;
+                            break;
                         }
                         else if (exitCmd == "其他東西")
                         {
                             achievementGet("Seriously?");
 
-                            cout << "輸入任何按鍵返回" << endl;
                             gameStart = false;
                         }
                     }
@@ -261,7 +260,6 @@ int main()
             }
             else if (exitCmd == "其他東西")
             {
-                cout << "Get achievement- \"Seriously?\" " << endl;
                 achievementGet("Seriously?");
             }
         }
