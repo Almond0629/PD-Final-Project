@@ -174,7 +174,6 @@ int main()
                         else if (exitCmd == "其他東西")
                         {
                             achievementGet("Seriously?");
-
                             gameStart = false;
                         }
                     }
