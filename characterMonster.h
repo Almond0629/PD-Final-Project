@@ -26,7 +26,6 @@ public:
     Monster(string name);
     virtual ~Monster() {}
     int RPSchoiceAndPrint();
-    // void winOrLoseTheGame(bool winMonster);
     virtual void print() = 0;
     string getName();
 };
@@ -114,15 +113,14 @@ private:
 public:
     Character(string name, int life,  Position position, int money);
     ~Character();
-    bool restart();
-    bool playOrPay();
-    void fight(Monster& monster);
-    void move(Position position);
-    // void winOrLoseTheGame(bool winCharacter);
+    void move(Position position);   // this and the next function are for future purposes
     Position getCharacterPosition(const Character& c);
     void reduceMoneyAndPrint(int amount);
     void putIntoBackPack(int money);
     void putIntoBackPack(Monster& monster);
     void seeTheBackPackStatus();
     void cooking();
+    bool restart();
+    bool playOrPay();
+    void fight(Monster& monster);
 };

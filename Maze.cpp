@@ -1,8 +1,7 @@
-#include "Maze.h"
+#include <iostream>
 #include <ctime>
 #include <cstdlib>
-#include <iostream>
-#include <algorithm>
+#include "Maze.h"
 
 using namespace std;
 

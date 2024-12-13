@@ -164,7 +164,7 @@ Character::Character(string name, int life, Position position, int money)
 {}
 Character::~Character() {}
 
-void Character::move(Position position)
+void Character::vo(Position position)
 {
     this->position.x += position.x;
     this->position.y += position.y;
@@ -260,7 +260,7 @@ void Character::seeTheBackPackStatus()
 
 void Character::cooking() {
     for(int i = 0; i < 30; i++) {
-        vector<Recipe> availableDishes = getAvailableDishes();//把可以做的菜 放到該vector裡面
+        vector<Recipe> availableDishes = getAvailableDishes();   // get all the available dishes
 
         if (availableDishes.empty()) {
             cout << "沒有足夠的食材來製作任何菜品。" << endl;
@@ -342,7 +342,7 @@ bool Character::restart(){
     cout << "現在你可以選擇是否要復活" << endl;
     cout << "在險惡的迷宮中，復活的代價就是..." << endl;
     sleep(delayTime);
-    cout << "一條命10元!如果你沒錢了..." << endl;
+    cout << "一條命15元!如果你沒錢了..." << endl;
     sleep(delayTime);
     cout << "就烹調背包中的食材並吃下營養的番茄牛肉燉湯吧!" << endl;
     cout << "這樣一來你一樣可以恢復一條命" << endl;
